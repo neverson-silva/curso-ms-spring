@@ -1,6 +1,7 @@
 package com.neverson.hrpayroll.services.impl;
 
 import com.neverson.hrpayroll.entities.Worker;
+import com.neverson.hrpayroll.feignclients.WorkerFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,17 +18,11 @@ import java.util.Map;
 public class PaymentServiceImpl implements PaymentService{
 
 	@Autowired
-	private RestTemplate restTemplate;
-
-	@Value("${hr-worker.host}")
-	private String workerHost;
+	private WorkerFeignClient workerFeignClient;
 
 	public Payment getPayment(long workerId, int days) {
 
-		Map<String, String> params = new HashMap<>();
-		params.put("id", String.valueOf(workerId));
-
-		Worker worker = restTemplate.getForObject(workerHost + "/workers/{id}", Worker.class, params) ;
+		Worker worker = workerFeignClient.findById(workerId).getBody();
 
 		return new Payment(worker.getName(), worker.getDailyIncome(), days);
 	}
