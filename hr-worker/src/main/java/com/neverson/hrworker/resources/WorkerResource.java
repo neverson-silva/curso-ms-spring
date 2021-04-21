@@ -1,8 +1,7 @@
 package com.neverson.hrworker.resources;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.neverson.hrworker.entities.Worker;
+import com.neverson.hrworker.services.WorkerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,44 +12,48 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.neverson.hrworker.entities.Worker;
-import com.neverson.hrworker.repositories.WorkerRepository;
-import com.neverson.hrworker.services.WorkerService;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "workers")
 public class WorkerResource {
 
-	private static Logger logger = LoggerFactory.getLogger(WorkerResource.class);
-	@Autowired
-	private Environment environment;
+    private static Logger logger = LoggerFactory.getLogger(WorkerResource.class);
+    @Autowired
+    private Environment environment;
 
-	@Autowired
-	private WorkerService service;
-	
-	
-	@GetMapping
-	public ResponseEntity<List<Worker>> findAll() {
-		
-		var list = service.findAll();
-		
-		return ResponseEntity.ok(list);
-	}
-	
-	@GetMapping("/{id}")
-	public ResponseEntity findById( @PathVariable("id") Long id) {
+    @Autowired
+    private WorkerService service;
 
 
-		logger.info("PORT = " + environment.getProperty("local.server.port"));
+    @GetMapping
+    public ResponseEntity<List<Worker>> findAll() {
 
-		Optional<Worker> worker = service.findById(id);
-		
-		if (worker.isPresent()) {
-			return ResponseEntity.ok(worker.get());
-		} else {
-			return ResponseEntity.notFound().build(); 
-		}
-		
-	}
-	
+        var list = service.findAll();
+
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity findById(@PathVariable("id") Long id) {
+
+//        try {
+//            Thread.sleep(3000L);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
+        logger.info("PORT = " + environment.getProperty("local.server.port"));
+
+        Optional<Worker> worker = service.findById(id);
+
+        if (worker.isPresent()) {
+            return ResponseEntity.ok(worker.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
 }
