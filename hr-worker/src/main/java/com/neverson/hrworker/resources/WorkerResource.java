@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 
+@RefreshScope
 @RestController
 @RequestMapping(value = "workers")
-@RefreshScope
 public class WorkerResource {
 
     private static Logger logger = LoggerFactory.getLogger(WorkerResource.class);
