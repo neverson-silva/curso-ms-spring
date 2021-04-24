@@ -29,9 +29,6 @@ public class WorkerResource {
     @Autowired
     private WorkerService service;
 
-    @Value("${test.config}")
-    private String config;
-
     @GetMapping
     public ResponseEntity<List<Worker>> findAll() {
 
@@ -60,15 +57,15 @@ public class WorkerResource {
         }
 
     }
-
-    @GetMapping("/configs")
-    public ResponseEntity<Void> configs() {
-
-        logger.info("CONFIG = " + config);
-
-        return ResponseEntity.noContent().build();
-
-
-    }
+//
+//    @GetMapping("/configs")
+//    public ResponseEntity<Void> configs() {
+//
+//        logger.info("CONFIG = " + config);
+//
+//        return ResponseEntity.noContent().build();
+//
+//
+//    }
 
 }
